@@ -9,6 +9,7 @@ Node.js 6.4.0 or above.
 Ionic and cordova are required, run the following to install:
 
 ``` npm install -g cordova ```
+
 ``` npm install -g ionic ```
 
 # Serving
