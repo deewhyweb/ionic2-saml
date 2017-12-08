@@ -4,14 +4,16 @@ import { CloudOptions } from "../fh-js-sdk";
 import * as $fh from "fh-js-sdk";
 import sinon from 'sinon';
 
+
 describe('Rhmap Provider', () => {
+
     let component: RhmapProvider;
     beforeEach(() => { 
 
       component = new RhmapProvider();
         
       var cloud = sinon.stub($fh, 'cloud').callsFake((options: CloudOptions, success: Function, fail: Function) => {
-          if (options.path === '/hello'){
+        if (options.path === '/hello'){
             success({msg: "hello world"});
           }
           if (options.path === '/invalidPath'){
@@ -39,7 +41,7 @@ describe('Rhmap Provider', () => {
   
     afterEach(() => {
       component = null;
-      $fh.cloud.restore();
+      (<any>$fh.cloud).restore()
     });
   
     it('cloud makes successfull call to $fh.cloud  ', (done) => {
