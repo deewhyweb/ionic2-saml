@@ -20,7 +20,7 @@ export class AuthProvider {
     } else {
         this.rhmapProvider.setToken(this.generateBasicAuthToken(username, password));
         var options: CloudOptions = {
-            path : 'verify'
+            path : 'api/v1/verify'
         }
         return this.rhmapProvider.cloud(options);
         

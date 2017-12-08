@@ -11,7 +11,7 @@ class MockRhmapProvider {
   }
   cloud(options: CloudOptions) {
     return new Promise((resolve: Function, reject: Function) => {
-      if (options.path !== 'verify'){
+      if (options.path !== 'api/v1/verify'){
         reject('incorrect path');
       } else {
         resolve(true);
