@@ -5,6 +5,7 @@ Ionic 2 based application demonstrating simple RHMAP integration via feedhenry s
 
 # Setup
 Ionic and cordova are required, run the following to install:
+
 ``` npm install -g cordova ```
 ``` npm install -g ionic ```
 
