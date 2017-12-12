@@ -11,9 +11,10 @@ import { DetailPage } from '../pages/home/detail/detail';
 import { TabsPage } from '../pages/tabs/tabs';
 import { AuthProvider } from '../providers/auth';
 import { RhmapProvider } from '../providers/rhmap';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Device } from '@ionic-native/device';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     SplashScreen,
     AuthProvider,
     RhmapProvider,
+    InAppBrowser,
+    Device,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

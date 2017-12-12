@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { DetailPage } from './detail/detail';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { LoginPage } from '../login/login';
+// // import { DetailPage } from './detail/detail';
+import { App, NavController } from 'ionic-angular';
 import { RhmapProvider } from '../../providers/rhmap';
 import { CloudOptions } from "../../fh-js-sdk";
 @Component({
@@ -8,24 +10,24 @@ import { CloudOptions } from "../../fh-js-sdk";
   templateUrl: 'home.html'
 })
 export class HomePage {
-  public items: any;
-  constructor(public navCtrl: NavController,private rhmapProvider: RhmapProvider) {
-    var self = this;
+  public formData : FormGroup;
+  constructor( private formBuilder: FormBuilder,  public navCtrl: NavController, public rhmapProvider: RhmapProvider, private app:App) {
+    this.formData = this.formBuilder.group({});
+    
+  }
+  
+  doLogout() {
     var options: CloudOptions = {
-      path : 'api/v1/items'
+      path : 'sso/logout',
+      method: 'POST'
     }
     this.rhmapProvider.cloud(options)
-    .then( items => {
-
-      self.items = items;
+    .then( res => {
+      this.app.getRootNav().setRoot(LoginPage);
     })
     .catch(err => {
-      console.log(err);
+      //alert(JSON.stringify(err));
+      alert(err);
     })
   }
-
-  itemSelected(item) {
-    this.navCtrl.push(DetailPage, {item: item});
-  }
-
 }

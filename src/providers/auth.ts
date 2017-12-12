@@ -8,22 +8,12 @@ export class AuthProvider {
   constructor(private rhmapProvider: RhmapProvider) {
   }
 
-  generateBasicAuthToken(username: string, password: string){
-    var token: string = username + ':' + password;
-    var hash: string = btoa(token);
-    return hash;
-  }
-
-  verify(username: string, password: string){
-    if (!username || !password){
-        return Promise.reject('Missing argument');
-    } else {
-        this.rhmapProvider.setToken(this.generateBasicAuthToken(username, password));
-        var options: CloudOptions = {
-            path : 'api/v1/verify'
-        }
-        return this.rhmapProvider.cloud(options);
-        
-    }
+  login(){
+      var options: CloudOptions = {
+          path : 'sso/session/login_host',
+          method: 'POST'
+      }
+      return this.rhmapProvider.cloud(options);
+      
   }
 }

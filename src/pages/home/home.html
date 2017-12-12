@@ -5,9 +5,10 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemSelected(item)">
-      {{ item.label }}
-    </button>  
-  </ion-list>
+  <form [formGroup]="formData" (ngSubmit)="doLogout()">
+    
+      <div padding>
+        <button ion-button color="primary" block type="submit">Logout</button>
+      </div>
+      </form>
 </ion-content>

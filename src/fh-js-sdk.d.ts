@@ -237,6 +237,11 @@ declare module FeedHenry {
     /**
      * @returns {Object}
      */
+    export function _getDeviceId(): FHParams;
+    
+        /**
+         * @returns {String}
+         */
     export function getFHHeaders();
 
     /**

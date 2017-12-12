@@ -2,33 +2,40 @@ import * as $fh from "fh-js-sdk";
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { CloudOptions } from "../fh-js-sdk";
+import { Device } from '@ionic-native/device';
  
 @Injectable()
 export class RhmapProvider {
   token: string;
-  constructor() {
+  constructor( private device: Device) {
   }
-  setToken(token: string){
-      this.token = token;
-  }
-  cloud(options: CloudOptions){
 
+  cloud(options: CloudOptions){
+      var uuid;
+      if (this.device && this.device.uuid){
+        uuid = this.device.uuid
+      } else {
+        uuid = 'dummyId';
+      }
       return new Promise((resolve: Function, reject: Function) => {
-        if (!this.token){
-            reject('Missing token');
+        if (!options){
+          reject('No options object passed to cloud call');
         } else {
-        options.headers = {
-            "Authorization": "Basic " + this.token
-        }
-        $fh.cloud(options,
-          (data: any, status: any, xhr: XMLHttpRequest) => {
-            resolve(data);
-          },
-          (message: string, error: $fh.DefaultCallbackError) =>  {
-            //resolve(true);
-            reject(message);
-          })
-        };
+          if (options.data){
+            options.data.token = uuid;
+          } else {
+            options.data = {
+              "token": uuid
+            }
+          } 
+          $fh.cloud(options,
+            (data: any, status: any, xhr: XMLHttpRequest) => {
+              resolve(data);
+            },
+            (message: string, error: $fh.DefaultCallbackError) =>  {
+              reject(message);
+            });
+          }
       });
   }
 }
