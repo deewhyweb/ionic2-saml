@@ -5,19 +5,12 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { LoginPage } from './login';
 import { TabsPage } from '../tabs/tabs';
 import { IonicModule, NavController, AlertController} from 'ionic-angular/index';
-import {Observable} from 'rxjs/Rx';
-
 import {} from 'jasmine';
-
 import { AuthProvider } from '../../providers/auth';
 import sinon from 'sinon';
 
 class mockInAppBrowser {
-    create() {
-        console.log('in mock create');
-    }
-
-
+    create() {}
 }
 class MockAuthProvider { 
     login(){
@@ -89,11 +82,11 @@ describe('Login', () => {
         expect(url).toEqual('https://sso.com');
         done();
         return {
-            close: function(){
+            close: () => {
             },
-            on: function(param){
+            on: param => {
                 return  {
-                    subscribe: function(cb){
+                    subscribe: cb =>{
                         if (param == 'loadstop'){
                             cb({url: '/login/ok'})
                         }
@@ -108,7 +101,7 @@ describe('Login', () => {
   it('Should not do Login', (done) => {
     sinon.stub(comp.alertCtrl, 'create').callsFake( (options: any) => {
         return {
-            present: function(){
+            present: () => {
                 expect(options.subTitle).toEqual('Error displaying SSO login page, please try again')
                 done();
             }
@@ -117,11 +110,11 @@ describe('Login', () => {
     sinon.stub(comp.iab, 'create').callsFake( (url: string,location: string, params: string)  => {
       expect(url).toEqual('https://sso.com');
       return {
-          close: function(){
+          close: () => {
           },
           on: function(param){
               return  {
-                  subscribe: function(cb){
+                  subscribe: cb => {
                       if (param == 'loaderror'){
                           cb({message: 'Error'})
                       }

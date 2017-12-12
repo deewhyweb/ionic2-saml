@@ -17,18 +17,11 @@ export class AuthProvider {
       
   }
   isValid(){
-    return new Promise((resolve, reject) => {
-      var options: CloudOptions = {
-        path : 'sso/session/valid',
-        method: 'POST'
-      }
-      this.rhmapProvider.cloud(options)
-      .then( res => {
-        resolve(res);
-      })
-      .catch(err => {
-        reject(err);
-      })
-    });
+    var options: CloudOptions = {
+      path : 'sso/session/valid',
+      method: 'POST'
+    }
+    return this.rhmapProvider.cloud(options)
+
   }
 }
