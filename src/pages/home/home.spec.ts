@@ -11,15 +11,12 @@ import { CloudOptions } from "../../fh-js-sdk";
 import { setTimeout } from 'timers';
 
 class MockRhmapProvider { 
-    token: string;
     constructor() {
     }
-    setToken(token){
-      this.token = token;
-    }
+
     cloud(options: CloudOptions) {
       return new Promise((resolve: Function, reject: Function) => {
-        if (options.path !== 'api/v1/items'){
+        if (options.path !== '/items'){
           reject('incorrect path');
         } else {
             var items = [
