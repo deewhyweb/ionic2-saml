@@ -5,7 +5,10 @@ import { CloudOptions } from "../fh-js-sdk";
 
 
 class MockRhmapProvider { 
-  
+  uuid: string;
+  getDeviceId(){
+    return this.uuid;
+  }
   constructor( public device: any) {
   }
 

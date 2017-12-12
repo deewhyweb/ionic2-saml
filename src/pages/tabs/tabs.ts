@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-
 import { AboutPage } from '../about/about';
 import { ContactPage } from '../contact/contact';
 import { HomePage } from '../home/home';
 import { LoginPage } from '../login/login';
-// import { DetailPage } from './detail/detail';
 import { NavController } from 'ionic-angular';
-import { RhmapProvider } from '../../providers/rhmap';
+import { AuthProvider } from '../../providers/auth';
 import { CloudOptions } from "../../fh-js-sdk";
 
 @Component({
@@ -18,22 +16,16 @@ export class TabsPage {
   tab2Root = AboutPage;
   tab3Root = ContactPage;
 
-  constructor(private rhmapProvider: RhmapProvider, public navCtrl: NavController) {
-
+  constructor(private authProvider: AuthProvider, public navCtrl: NavController) {
   }
   ionViewCanEnter() {
     return new Promise((resolve, reject) => {
-      var options: CloudOptions = {
-        path : 'sso/session/valid',
-        method: 'POST'
-      }
-      this.rhmapProvider.cloud(options)
+      this.authProvider.isValid()
       .then( res => {
         resolve(true);
       })
       .catch(err => {
         this.navCtrl.popToRoot();
-        //alert(JSON.stringify(err));
         reject(false);
       })
     });

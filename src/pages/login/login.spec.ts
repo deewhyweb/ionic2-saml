@@ -42,10 +42,6 @@ class MockNavController {
 class MockAlertController {
     _getPortal(): any { return {} };
     create(options?: any) { 
-        return {
-            present: function(){
-            }
-        }
     };
 };
 
@@ -88,6 +84,7 @@ describe('Login', () => {
 
 
   it('Should doLogin', (done) => {
+
       sinon.stub(comp.iab, 'create').callsFake( (url: string,location: string, params: string)  => {
         expect(url).toEqual('https://sso.com');
         done();
@@ -108,16 +105,32 @@ describe('Login', () => {
       comp.doLogin({});
   });
 
-//   it('Should not doLogin', () => {
-//     sinon.stub(comp.alertCtrl, 'create').callsFake(options => {
-//         expect(options.subTitle).toEqual('invalid username or password');
-//         return {
-//             present: () =>{}
-//         }
-//     });
-//     comp.formData.value.username = 'invalid';
-//     comp.formData.value.password = 'invalid';
-//     comp.doLogin({});
-//   });
+  it('Should not do Login', (done) => {
+    sinon.stub(comp.alertCtrl, 'create').callsFake( (options: any) => {
+        return {
+            present: function(){
+                expect(options.subTitle).toEqual('Error displaying SSO login page, please try again')
+                done();
+            }
+        }
+      });
+    sinon.stub(comp.iab, 'create').callsFake( (url: string,location: string, params: string)  => {
+      expect(url).toEqual('https://sso.com');
+      return {
+          close: function(){
+          },
+          on: function(param){
+              return  {
+                  subscribe: function(cb){
+                      if (param == 'loaderror'){
+                          cb({message: 'Error'})
+                      }
+                  }
+              }
+          }
+      }
+    });
+    comp.doLogin({});
+  });
 
 });

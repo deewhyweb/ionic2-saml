@@ -6,25 +6,32 @@ import { Device } from '@ionic-native/device';
  
 @Injectable()
 export class RhmapProvider {
+  uuid: string;
   constructor(public device: Device) {
   }
 
-  cloud(options: CloudOptions){
-      var uuid;
+  getDeviceId(){
+    if (!this.uuid){
       if (this.device && this.device.uuid){
-        uuid = this.device.uuid
+        this.uuid = this.device.uuid;
       } else {
-        uuid = 'dummyId';
+        this.uuid = 'dummyId';
       }
+    }
+    return this.uuid;
+  }
+
+  cloud(options: CloudOptions){
+
       return new Promise((resolve: Function, reject: Function) => {
         if (!options){
           reject('No options object passed to cloud call');
         } else {
           if (options.data){
-            options.data.token = uuid;
+            options.data.token = this.getDeviceId();
           } else {
             options.data = {
-              "token": uuid
+              "token": this.getDeviceId()
             }
           } 
           $fh.cloud(options,

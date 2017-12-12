@@ -16,4 +16,19 @@ export class AuthProvider {
       return this.rhmapProvider.cloud(options);
       
   }
+  isValid(){
+    return new Promise((resolve, reject) => {
+      var options: CloudOptions = {
+        path : 'sso/session/valid',
+        method: 'POST'
+      }
+      this.rhmapProvider.cloud(options)
+      .then( res => {
+        resolve(res);
+      })
+      .catch(err => {
+        reject(err);
+      })
+    });
+  }
 }

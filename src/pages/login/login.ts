@@ -53,11 +53,9 @@ export class LoginPage {
         });
         browser.on('loaderror')
         .subscribe(function(event) {
-          browser.close();
-          setTimeout(function() {
-            self.showAlert('Error displaying SSO login page, please try again');
-          }, 500);
-          console.error('error: ' + event.message);
+          browser.close();         
+          self.showAlert('Error displaying SSO login page, please try again');
+
         });
         browser.on('exit').
         subscribe(function(event) {
