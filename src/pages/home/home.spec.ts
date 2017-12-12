@@ -3,12 +3,11 @@ import { By }           from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { HomePage } from './home';
 import { TabsPage } from '../tabs/tabs';
-import { IonicModule, NavController, AlertController} from 'ionic-angular/index';
+import { IonicModule, NavController} from 'ionic-angular/index';
 import {} from 'jasmine';
 import { RhmapProvider } from '../../providers/rhmap';
 import sinon from 'sinon';
 import { CloudOptions } from "../../fh-js-sdk";
-import { setTimeout } from 'timers';
 
 class MockRhmapProvider { 
     constructor() {
@@ -38,13 +37,6 @@ class MockNavController {
     push(page) {}
 
 }
-
-class MockAlertController {
-    _getPortal(): any { return {} };
-    create(options?: any) { return {} };
-};
-
-
 describe('Home', () => {
   let de: DebugElement;
   let comp: HomePage;
