@@ -6,8 +6,7 @@ import { Device } from '@ionic-native/device';
  
 @Injectable()
 export class RhmapProvider {
-  token: string;
-  constructor( private device: Device) {
+  constructor(public device: Device) {
   }
 
   cloud(options: CloudOptions){

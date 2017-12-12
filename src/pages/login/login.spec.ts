@@ -1,35 +1,53 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By }           from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { LoginPage } from './login';
 import { TabsPage } from '../tabs/tabs';
 import { IonicModule, NavController, AlertController} from 'ionic-angular/index';
+import {Observable} from 'rxjs/Rx';
+
 import {} from 'jasmine';
+
 import { AuthProvider } from '../../providers/auth';
 import sinon from 'sinon';
 
+class mockInAppBrowser {
+    create() {
+        console.log('in mock create');
+    }
+
+
+}
 class MockAuthProvider { 
-    verify(username: string, password: string){
+    login(){
         return new Promise((resolve: Function, reject: Function) => {
-            if (username == 'username'  && password == 'password'){
-                resolve(true);
-            } else {
-                reject('invalid username or password');
+            var res: any = {
+                sso: 'https://sso.com'
             }
+            resolve(res);
         });
     }
 }
 
 class MockNavController {
-    setRoot(page) {}
-
+    push(page) {
+        expect(page.name).toEqual('TabsPage');
+        return new Promise((resolve: Function, reject: Function) => {
+            resolve(true);
+        });
+    }
 }
 
 class MockAlertController {
     _getPortal(): any { return {} };
-    create(options?: any) { return {} };
+    create(options?: any) { 
+        return {
+            present: function(){
+            }
+        }
+    };
 };
-
 
 describe('Login', () => {
   let de: DebugElement;
@@ -46,6 +64,7 @@ describe('Login', () => {
         { provide: AuthProvider, useClass: MockAuthProvider},
         { provide: NavController, useClass: MockNavController},
         { provide: AlertController, useClass: MockAlertController },
+        { provide: InAppBrowser, useClass: mockInAppBrowser},
         { provide: TabsPage, TabsPage}
       ]
     });
@@ -63,31 +82,42 @@ describe('Login', () => {
 
     fixture.detectChanges();
     const ionTitle = de.nativeElement;
-    expect(ionTitle.innerText).toMatch('RHMAP Basic Auth Login',
+    expect(ionTitle.innerText).toMatch('RHMAP SAML Login',
       'ion-title should show header message');
   });
 
 
   it('Should doLogin', (done) => {
-      sinon.stub(comp.navCtrl, 'setRoot').callsFake(page => {
-        expect(page.name).toEqual('TabsPage');
+      sinon.stub(comp.iab, 'create').callsFake( (url: string,location: string, params: string)  => {
+        expect(url).toEqual('https://sso.com');
         done();
-      })
-      comp.formData.value.username = 'username';
-      comp.formData.value.password = 'password';
+        return {
+            close: function(){
+            },
+            on: function(param){
+                return  {
+                    subscribe: function(cb){
+                        if (param == 'loadstop'){
+                            cb({url: '/login/ok'})
+                        }
+                    }
+                }
+            }
+        }
+      });
       comp.doLogin({});
   });
 
-  it('Should not doLogin', () => {
-    sinon.stub(comp.alertCtrl, 'create').callsFake(options => {
-        expect(options.subTitle).toEqual('invalid username or password');
-        return {
-            present: () =>{}
-        }
-    });
-    comp.formData.value.username = 'invalid';
-    comp.formData.value.password = 'invalid';
-    comp.doLogin({});
-  });
+//   it('Should not doLogin', () => {
+//     sinon.stub(comp.alertCtrl, 'create').callsFake(options => {
+//         expect(options.subTitle).toEqual('invalid username or password');
+//         return {
+//             present: () =>{}
+//         }
+//     });
+//     comp.formData.value.username = 'invalid';
+//     comp.formData.value.password = 'invalid';
+//     comp.doLogin({});
+//   });
 
 });
