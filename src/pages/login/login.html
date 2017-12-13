@@ -1,10 +1,16 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>RHMAP SAML Login</ion-title>
+    <ion-title><img class="logo-img" src="./assets/imgs/bp-logo.png">RHMAP SAML Login</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+  
+    <div id="instructions">
+      <p>To login via SAML, click on the <b>Sign In</b> button below</p>
+    </div>
+
+
   <form [formGroup]="formData" (ngSubmit)="doLogin()">
 
   <div padding>
