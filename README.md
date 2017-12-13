@@ -1,7 +1,7 @@
-Red Hat Mobile Application Platform Ionic 2 Reference Application
+Red Hat Mobile Application Platform Ionic 2 SAML Reference Application
 ===============
 
-Ionic 2 based application demonstrating simple RHMAP integration via feedhenry sdk
+Ionic 2 based application demonstrating SAML login and RHMAP integration via feedhenry sdk
 
 # Pre-requisites
 Node.js 6.4.0 or above.
