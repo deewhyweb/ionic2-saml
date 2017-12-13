@@ -6,9 +6,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AlertController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
-
-
-
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
