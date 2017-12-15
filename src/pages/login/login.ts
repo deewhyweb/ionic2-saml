@@ -37,7 +37,7 @@ export class LoginPage {
         var browser = this.iab.create(res.sso, '_blank', 'location=yes');
         browser.on('loadstop')
         .subscribe(function(event) {
-          if (event.url && event.url.indexOf('/login/ok') > -1) { // User now logged in!
+          if (event.url && event.url.indexOf('/Success') > -1) { // User now logged in!
             browser.close();
             self.navCtrl.push(TabsPage)
             .then(res => {

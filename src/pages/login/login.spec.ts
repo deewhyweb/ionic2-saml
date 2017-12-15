@@ -88,7 +88,7 @@ describe('Login', () => {
                 return  {
                     subscribe: cb =>{
                         if (param == 'loadstop'){
-                            cb({url: '/login/ok'})
+                            cb({url: '/Success'})
                         }
                     }
                 }
