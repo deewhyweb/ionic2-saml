@@ -3,6 +3,7 @@ import { AboutPage } from '../about/about';
 import { ContactPage } from '../contact/contact';
 import { HomePage } from '../home/home';
 import { NavController } from 'ionic-angular';
+import { AuthProvider } from '../../providers/auth';
 
 
 @Component({
@@ -14,19 +15,19 @@ export class TabsPage {
   tab2Root = AboutPage;
   tab3Root = ContactPage;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, private authProvider: AuthProvider,) {
   }
   ionViewCanEnter() {
     return new Promise((resolve, reject) => {
-      resolve(true);
-      // this.authProvider.isValid()
-      // .then( res => {
-      //   resolve(true);
-      // })
-      // .catch(err => {
-      //   this.navCtrl.popToRoot();
-      //   reject(false);
-      // })
+      
+      this.authProvider.isValid()
+      .then( res => {
+        resolve(true);
+      })
+      .catch(err => {
+        this.navCtrl.popToRoot();
+        reject(false);
+      })
     });
   }
 }
