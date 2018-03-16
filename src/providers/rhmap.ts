@@ -36,6 +36,7 @@ export class RhmapProvider {
           } 
           $fh.cloud(options,
             (data: any, status: any, xhr: XMLHttpRequest) => {
+              console.log(status);
               resolve(data);
             },
             (message: string, error: $fh.DefaultCallbackError) =>  {
